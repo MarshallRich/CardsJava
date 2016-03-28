@@ -1,8 +1,11 @@
 package com.theironyard;
 
 import javax.security.auth.login.CredentialException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.frequency;
 
 public class Main {
 
@@ -54,6 +57,72 @@ public class Main {
                 })
                 .collect(Collectors.toCollection(HashSet<Card.Suit>::new));
         return suits.size() == 1;
+    }
+
+    static boolean isStraight(HashSet<Card> hand) {
+        HashSet<Card.Rank> ranks =
+                hand.stream()
+                .map(card -> {
+                    return card.rank;
+                })
+                .collect(Collectors.toCollection(HashSet<Card.Rank>::new));
+
+        ArrayList<Card.Rank> ranksList =
+                ranks.stream()
+                        .sorted()
+                        .collect(Collectors.toCollection(ArrayList<Card.Rank>::new));
+        if(ranks.size() == 4 && ranksList.get(3).ordinal() - ranksList.get(0).ordinal() == 3) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    static boolean isStraightFlush(HashSet<Card> hand) {
+        return (isFlush(hand) && isStraight(hand));
+    }
+
+    static boolean isFourOfKind(HashSet<Card> hand) {
+        HashSet<Card.Rank> ranks =
+                hand.stream()
+                        .map(card -> {
+                            return card.rank;
+                        })
+                        .collect(Collectors.toCollection(HashSet<Card.Rank>::new));
+        return ranks.size() == 1;
+    }
+
+    static boolean isThreeOfKind(HashSet<Card> hand) {
+        HashSet<Card.Rank> ranks =
+                hand.stream()
+                        .map(card -> {
+                            return card.rank;
+                        })
+                        .collect(Collectors.toCollection(HashSet<Card.Rank>::new));
+        ArrayList<Card.Rank> rankList =
+                hand.stream()
+                    .map(card -> {
+                        return card.rank;
+                    })
+                    .collect(Collectors.toCollection(ArrayList<Card.Rank>::new));
+        return (ranks.size() == 2 && (frequency(rankList, rankList.get(0)) == 3 || frequency(rankList, rankList.get(1)) == 3));
+    }
+
+    static boolean isTwoPair(HashSet<Card> hand) {
+        HashSet<Card.Rank> ranks =
+                hand.stream()
+                        .map(card -> {
+                            return card.rank;
+                        })
+                        .collect(Collectors.toCollection(HashSet<Card.Rank>::new));
+        ArrayList<Card.Rank> rankList =
+                hand.stream()
+                        .map(card -> {
+                            return card.rank;
+                        })
+                        .collect(Collectors.toCollection(ArrayList<Card.Rank>::new));
+        return (ranks.size() == 2 && (frequency(rankList, rankList.get(0)) == 2 && frequency(rankList, rankList.get(1)) == 2));
     }
 
     public static void main(String[] args) {
