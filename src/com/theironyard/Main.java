@@ -100,13 +100,14 @@ public class Main {
                             return card.rank;
                         })
                         .collect(Collectors.toCollection(HashSet<Card.Rank>::new));
+        ArrayList<Card.Rank> rankListHash = new ArrayList<>(ranks);
         ArrayList<Card.Rank> rankList =
                 hand.stream()
                     .map(card -> {
                         return card.rank;
                     })
                     .collect(Collectors.toCollection(ArrayList<Card.Rank>::new));
-        return (ranks.size() == 2 && (frequency(rankList, rankList.get(0)) == 3 || frequency(rankList, rankList.get(1)) == 3));
+        return (ranks.size() == 2 && (frequency(rankList, rankListHash.get(0)) == 3 || frequency(rankList, rankListHash.get(1)) == 3));
     }
 
     static boolean isTwoPair(HashSet<Card> hand) {
@@ -116,13 +117,14 @@ public class Main {
                             return card.rank;
                         })
                         .collect(Collectors.toCollection(HashSet<Card.Rank>::new));
+        ArrayList<Card.Rank> rankListHash = new ArrayList<>(ranks);
         ArrayList<Card.Rank> rankList =
                 hand.stream()
                         .map(card -> {
                             return card.rank;
                         })
                         .collect(Collectors.toCollection(ArrayList<Card.Rank>::new));
-        return (ranks.size() == 2 && (frequency(rankList, rankList.get(0)) == 2 && frequency(rankList, rankList.get(1)) == 2));
+        return (ranks.size() == 2 && (frequency(rankList, rankListHash.get(0)) == 2 && frequency(rankList, rankListHash.get(1)) == 2));
     }
 
     public static void main(String[] args) {
